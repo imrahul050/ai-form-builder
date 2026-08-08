@@ -22,14 +22,21 @@ WORKDIR /var/www
 
 COPY . .
 
-# Set permissions for storage & database
-RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions bootstrap/cache database && \
+# Set up environment file & sqlite file before composer install
+RUN cp .env.example .env && \
+    mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions bootstrap/cache database && \
     touch database/database.sqlite && \
     chmod -R 777 storage bootstrap/cache database
 
 # Install composer production dependencies cleanly
 RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
+# Generate key, discover packages, and seed database inside container
+RUN php artisan key:generate --force && \
+    php artisan package:discover --ansi && \
+    php artisan migrate --force --seed && \
+    php artisan storage:link || true
+
 # Expose port and startup command
 EXPOSE 8080
-CMD bash -c "cp -n .env.example .env || true && php artisan key:generate --force && php artisan migrate --force --seed && php artisan storage:link || true && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}"
+CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8080}

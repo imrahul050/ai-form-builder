@@ -22,13 +22,19 @@ WORKDIR /var/www
 
 COPY . .
 
-# Install production composer dependencies
-RUN composer install --no-dev --optimize-autoloader
+# Set up environment file & sqlite file before composer install
+RUN cp .env.example .env && \
+    mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions bootstrap/cache && \
+    touch database/database.sqlite && \
+    chmod -R 777 storage bootstrap/cache database
 
-# Set permissions & database
-RUN touch database/database.sqlite
-RUN chmod -R 777 storage bootstrap/cache database
+# Install composer production dependencies (no-scripts prevents post-autoload failure)
+RUN composer install --no-dev --optimize-autoloader --no-scripts
 
-# Run migrations, seeders, storage link & start server
+# Generate key & discover packages safely
+RUN php artisan key:generate --force && \
+    php artisan package:discover --ansi
+
+# Expose port and startup command
 EXPOSE 8080
 CMD php artisan migrate --force --seed && php artisan storage:link && php artisan serve --host=0.0.0.0 --port=${PORT:-8080}

@@ -147,13 +147,3 @@ The database utilizes explicit composite indexes tailored for high-concurrency q
 - **POST `/api/v1/forms/{slug}/submit`**: Submit form response programmatically with server-side validation.
 
 ---
-
-## 8. Development & Documentation Logs
-
-Project task execution logs and technical design documents are stored module-wise in:
-- [`ai_create/requirements_and_architecture.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_create/requirements_and_architecture.md)
-- [`ai_work/01_module_core_form_builder.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_work/01_module_core_form_builder.md)
-- [`ai_work/02_module_ai_form_generation.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_work/02_module_ai_form_generation.md)
-- [`ai_work/03_module_docx_xlsx_importer.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_work/03_module_docx_xlsx_importer.md)
-- [`ai_work/04_module_submissions_and_analytics.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_work/04_module_submissions_and_analytics.md)
-- [`ai_work/05_module_differentiators_and_infra.md`](file:///Users/ProjectsData/assignment/edunetfoundation/ai_work/05_module_differentiators_and_infra.md)

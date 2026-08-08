@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: formcraft-ai
+    env: docker
+    plan: free
+    region: singapore
+    envVars:
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: base64:eZg2+w3HhG6lQfBv8uP0L1Xy3Z4R5T6Y7U8I9O0P1A2=
+      - key: DB_CONNECTION
+        value: sqlite

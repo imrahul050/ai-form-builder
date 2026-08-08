@@ -22,13 +22,13 @@ WORKDIR /var/www
 
 COPY . .
 
-# Install composer production dependencies cleanly
-RUN composer install --no-dev --optimize-autoloader --no-scripts
-
 # Set permissions for storage & database
 RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions bootstrap/cache database && \
     touch database/database.sqlite && \
     chmod -R 777 storage bootstrap/cache database
+
+# Install composer production dependencies cleanly
+RUN composer install --no-dev --optimize-autoloader --no-scripts --ignore-platform-reqs
 
 # Expose port and startup command
 EXPOSE 8080
